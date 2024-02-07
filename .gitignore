@@ -1,0 +1,7 @@
+**/target/
+**/debug/
+**/release/
+Cargo.lock
+
+**/*.rs.bk
+*.pdb
