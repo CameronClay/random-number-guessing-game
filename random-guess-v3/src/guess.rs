@@ -1,5 +1,4 @@
-
-//structs can access private members of another sturct if they are in the same module (e.g. source file)
+//structs can access private members of another struct if they are in the same module (e.g. source file)
 
 use crate::gametypes::GameTypeT; //absolute import
 use std::fmt;
@@ -56,5 +55,28 @@ impl<T> fmt::Display for Guess<T>
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.get_value())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_guess_get_value() {
+        let guess = Guess::new(12);
+        assert!(guess.get_value() == 12);
+    }
+
+    #[test]
+    fn test_guess_bounds_get_min() {
+        let bounds = GuessBounds::new(1, 10);
+        assert!(bounds.get_min() == 1);
+    }
+
+    #[test]
+    fn test_guess_bounds_get_max() {
+        let bounds = GuessBounds::new(1, 10);
+        assert!(bounds.get_max() == 10);
     }
 }

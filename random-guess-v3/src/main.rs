@@ -13,9 +13,8 @@ use guess::{Guess, GuessBounds, GuessState};
 use game_state::GameState;
 use gametypes::GameType;
 
-// type ErrFmt = fn(&str) -> String;
-// type ValPredicate<T> = fn(&T) -> bool;
 // use generic parameter of type Fn rather than function pointer (fn) since anonymous functions with captures cannot be coerced to function pointer
+// reads a value from stdin until it passes ValPredicate. Eacfh time ValPredciate returns false, print error from ErrDisp and try again
 fn read_val<ErrDisp, ValPredicate, T>(prompt: &str, pred_opt: Option<ValPredicate>) -> T
     where T: FromStr,
           ErrDisp: InputError,
@@ -46,6 +45,7 @@ fn read_val<ErrDisp, ValPredicate, T>(prompt: &str, pred_opt: Option<ValPredicat
     }
 }
 
+//reads maximum number from stdin
 fn read_maxnum() -> i32 {
     read_val::<MaxNumError, _, _> (
         "Enter a max number: ", 
@@ -53,6 +53,7 @@ fn read_maxnum() -> i32 {
     )
 }
 
+//read guess from stdin
 fn read_guess(minnum: i32, maxnum: i32) -> i32 {
     read_val::<GuessError, _, _> (
         format!("Guess a number [{minnum}, {maxnum}]: ").as_str(), 
@@ -60,10 +61,11 @@ fn read_guess(minnum: i32, maxnum: i32) -> i32 {
     )
 }
 
-fn game_loop() { //() is unit type aka void (implicit when -> is left out)
+//main game loop/logic
+fn game_loop() {
     let minnum: GameType = 0;
     let maxnum: GameType = read_maxnum();
-    let to_guess = rand::thread_rng().gen_range(minnum..=maxnum);
+    let to_guess = rand::thread_rng().gen_range(minnum..=maxnum); //generate random number from [minnum, maxnum]
     let guess_bounds = GuessBounds::new(minnum, maxnum);
     let mut game_state = GameState::new(guess_bounds, to_guess);
 

@@ -4,5 +4,5 @@ pub trait GameTypeT :
 impl<T> GameTypeT for T
     where T: num_traits::PrimInt + std::fmt::Display + std::ops::AddAssign {}
 
-//type to actually use for GameType
+//primitive type used for GameType
 pub type GameType = i32;

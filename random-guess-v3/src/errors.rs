@@ -1,5 +1,4 @@
 use std::fmt;
-use std::marker::PhantomData;
 
 pub trait InputError : fmt::Display {
     type Err<'a>: InputError;
